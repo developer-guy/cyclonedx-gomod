@@ -5,6 +5,7 @@ on:
     tags:
     - 'v*'
 
+
 # Source: https://github.com/goreleaser/supply-chain-example/blob/main/.github/workflows/release.yml
 permissions:
   contents: write # needed to write releases
@@ -41,4 +42,4 @@ jobs:
         args: release --rm-dist
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        github_repository_owner: ${{ github.repository_owner }}
+        docker_repository_owner: devopps

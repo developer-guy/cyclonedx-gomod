@@ -56,7 +56,7 @@ dockers:
   dockerfile: Dockerfile.goreleaser
   use: buildx
   image_templates:
-  - "{{ .Env.github_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
   build_flag_templates:
   - "--platform=linux/amd64"
   - "--label=org.opencontainers.image.title={{ .ProjectName }}"
@@ -71,7 +71,7 @@ dockers:
   dockerfile: Dockerfile.goreleaser
   use: buildx
   image_templates:
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-arm64"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
   build_flag_templates:
   - "--platform=linux/arm64"
   - "--label=org.opencontainers.image.title={{ .ProjectName }}"
@@ -83,22 +83,22 @@ dockers:
   - "--label=org.opencontainers.image.source={{ .GitURL }}"
 
 docker_manifests:
-- name_template: "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:latest"
+- name_template: "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:latest"
   image_templates:
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-amd64"
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-arm64"
-- name_template: "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
+- name_template: "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}"
   image_templates:
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-amd64"
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-arm64"
-- name_template: "cyclonedx/{{ .ProjectName }}:v{{ .Major }}"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
+- name_template: "{{ .Env.docker_repository_owner}}/{{ .ProjectName }}:v{{ .Major }}"
   image_templates:
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-amd64"
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-arm64"
-- name_template: "cyclonedx/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
+- name_template: "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}"
   image_templates:
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-amd64"
-  - "{{ .Env.github_repository_owner }}//{{ .ProjectName }}:{{ .Tag }}-arm64"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+  - "{{ .Env.docker_repository_owner }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
 
 # signs our docker image
 # https://goreleaser.com/customization/docker_sign
@@ -106,7 +106,7 @@ docker_signs:
   - cmd: cosign
     env:
     - COSIGN_EXPERIMENTAL=1
-    artifacts: images
+    artifacts: all
     output: true
     args:
     - 'sign'
